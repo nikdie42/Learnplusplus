@@ -107,11 +107,9 @@ def getnerate_random_dataset(dataset,trainsize,testsize, K, datasize):
     trainselection=np.sort(trainselection)
     testselection=np.asarray(testselection)
     testselection=np.sort(testselection)
-    print(weightsum)
     weightsum=0
     for picturetype in range(len(dataset)):
         for picturnumber in range(len(dataset[picturetype])):
-            print(weightsum)
             weightsum += dataset[picturetype][picturnumber][2]
             if weightsum>trainselection[trainnumber]:
                 trainpicturenumbers.append([picturetype,picturnumber])
