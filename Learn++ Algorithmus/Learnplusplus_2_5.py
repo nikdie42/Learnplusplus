@@ -77,6 +77,17 @@ def split_dataset(K,dataset):
             newdataset[i].append(dataset[j][i*datasize:(i+1)*datasize])
     return newdataset
 
+def calc_errorE(fehlermatrix, testnpicturenumbers, dataset):
+    i=0
+    error = 0
+    for element in fehlermatrix:
+        if element == 0:
+            error = error+(dataset[testnpicturenumbers[i][0]][testnpicturenumbers[i][1]][2])
+        i += 1
+    print("FehlerE:")
+    print(error)
+    return error
+
 
 def getnerate_random_dataset(dataset,trainsize,testsize, K, datasize):
     #Diese Funktion Wählt aus dem gegebenen Datensatz zufälige Daten aus. 
@@ -223,16 +234,7 @@ def calc_sum(fehlermatrix, testnpicturenumbers, dataset,beta):
     print(summe)
     return summe
 
-def calc_errorE(fehlermatrix, testnpicturenumbers, dataset):
-    i=0
-    error = 0
-    for element in fehlermatrix:
-        if element == 0:
-            error = error+(dataset[testnpicturenumbers[i][0]][testnpicturenumbers[i][1]][2])
-        i += 1
-    print("FehlerE:")
-    print(error)
-    return error
+
 
 def calc_error(fehlermatrix, testnpicturenumbers, dataset):
     #Der Fehler in Abhängigkeit von den Gewichten wird berechnet.
@@ -272,9 +274,6 @@ def testlearnplusplus(allCNN1, allCNN2, xTest, yTest):
         predictions1.append(element.predict(xTest))
     for element in allCNN2:
         predictions2.append(element.predict(xTest))
-
-    print(len(allCNN1))
-    print(len(allCNN2))
     allresults = []
     for i in range(len(xTest)):
         
@@ -290,13 +289,11 @@ def testlearnplusplus(allCNN1, allCNN2, xTest, yTest):
         allresults.append(result)
     
     yresults = []
-    print(allresults)
     allresults = np.array(allresults)
     i=0
     for element in allresults:
         yresults.append(np.argmax(element))
         i=i+1
-    print(yresults)
     false = 0
     true = 0
     for i in range(len(yresults)):
@@ -308,9 +305,9 @@ def testlearnplusplus(allCNN1, allCNN2, xTest, yTest):
     i=0
     fehlermatrixx=[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
     for element in yTest:
-
         fehlermatrixx[element[0]][yresults[i]] += 1
         i=i+1
+    print(fehlermatrixx)
     df = pd.DataFrame(fehlermatrixx)
     df.to_excel(excel_writer = "Matrix.xlsx")
     print(false)
